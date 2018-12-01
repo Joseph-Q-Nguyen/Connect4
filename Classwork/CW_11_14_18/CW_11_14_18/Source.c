@@ -8,15 +8,18 @@ int main(void)
 	fopen_s(&fptr, "C:\\Users\\arkbull\\Documents\\CS49C\\example.txt", "r");
 	fopen_s(&fptr2, "C:\\Users\\arkbull\\Documents\\CS49C\\example2.txt", "w");
 
-	char c = fgetc(fptr);
-	while (!feof(fptr))
+	//if (fptr = fopen("C:\\Users\\arkbull\\Documents\\CS49C\\example.txt", "r") == NULL)
+		//printf("File cannot be opened\n");
+
+	char c;
+	while ((c = fgetc(fptr)) != EOF )
 	{
-		char c = fgetc(fptr);
-	//	c = c + 12;
+		c = c + 1;
 		fputc(c, fptr2);
+		printf("%c\n", c);
 	}
 
-	int fclose(fptr);
-	int fclose(fptr2);
+	fclose(fptr);
+	fclose(fptr2);
 	system("pause");
 }
