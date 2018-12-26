@@ -5,17 +5,18 @@
 #define COLS 7
 #define GAME_LOOP 1
 
-void reset();
-void display();
-int insert(char player, int column);
-int boardIsFull();
-void nextPlayer();
-int winnerExists();
-int columnIsFull(int col);
-void indent();
-void startingScreen();
+void reset(void);
+void display(void);
+int insert(char, int);
+int boardIsFull(void);
+void nextPlayer(void);
+int winnerExists(void);
+int columnIsFull(int);
+void indent(void);
+void startingScreen(void);
 
 char board[6][7];
+
 char player;
 int xWins, yWins;
 
@@ -23,68 +24,62 @@ int main(void) {
 	FILE *fp;
 	int columnChoice;
 	char replayChoice;
-
 	reset();
 	startingScreen();
 	display();
-	printf("						");
+	printf("");
 	printf("Player %c: Choose a column: ", player);
 	while (GAME_LOOP)
 	{
 		scanf_s("%d", &columnChoice);
 		if (columnChoice > 6) {
-			printf("						");
+			printf("");
 			printf("Invalid column choice, choose from 0 - 6: ");
 		}
 		else if (columnIsFull(columnChoice)) {
-			printf("						");
+			printf("");
 			printf("Column is full, choose another column: ");
 		}
 		else {
 			insert(player, columnChoice);
 			if (winnerExists()) {
 				display();
-				printf("						");
+				printf("");
 				printf("Congrats Player %c Won!\n", player);
 				player == 'X' ? xWins++ : yWins++;
-				printf("						");
+				printf("");
 				printf("Enter Q to quit or press any key to rematch: ");
 				while (getchar() != '\n'); // clear the input stream
 				scanf_s("%c", &replayChoice);
 				if (replayChoice == 'Q' || replayChoice == 'q')
-				{
 					break;
-				}
 				else {
-					printf("						");
+					printf("");
 					printf("Game Restarting...\n");
-					printf("						");
+					printf("");
 					puts("-------------------------------------------");
 					reset();
 					nextPlayer(); // loser goes first
 					display();
-					printf("						");
+					printf("");
 					printf("Player %c: Choose a column: ", player);
 				}
 			}
 			else {
 				nextPlayer();
 				display();
-				printf("						");
+				printf("");
 				printf("Player %c: Choose a column: ", player);
 			}
 		}
 	}
-
 	fopen_s(&fp, "C:\\Users\\arkbull\\Documents\\CS49C\\Project\\winner.txt", "w");
 	fprintf(fp, "Player X won %d games.\n", xWins);
 	fprintf(fp, "Player Y won %d games.\n", yWins);
 	fclose(fp);
-
 	printf("Player X won %d games.\n", xWins);
 	printf("Player Y won %d games.\n", yWins);
 	puts("Results are printed into text file.");
-
 	system("pause");
 }
 
@@ -95,15 +90,15 @@ void reset() {
 }
 
 void display() {
-	printf("						 0  1  2  3  4  5  6\n"); // 6 tabs and a space
+	printf(" 0  1  2  3  4  5  6\n");
 	for (int i = 0; i < ROWS; i++) {
-		printf("						"); // 6 tabs
+		printf("");
 		for (int j = 0; j < COLS; j++) {
 			printf("[%c]", board[i][j]);
 		}
 		puts("");
 	}
-	printf("						");
+	printf("");
 	puts("-------------------------------------------");
 }
 
@@ -172,16 +167,15 @@ int columnIsFull(int col) {
 }
 
 void indent() {
-	printf("						");
+	printf("");
 }
 
 void startingScreen() {
-	printf("				");
-	printf("Welcome to Connect 4!!!!!!\n");
-	printf("				");
-	printf("Which player shall go first? Enter 0 for Player X, 1 for Player Y: ");
+	printf("");
+	printf("Welcome to Connect 4!\n");
+	printf("");
+	printf("Which player shall go first? \nEnter 0 for Player X, 1 for Player Y: ");
 	int choice;
 	scanf_s("%d", &choice);
 	player = (choice == 0) ? 'X' : 'Y';
-
 }
